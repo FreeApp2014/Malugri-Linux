@@ -97,10 +97,9 @@ let status = Application.run {
            bsLbl.label = "Block Samples: " + String(pC.fileInformation.blockSize);
            window.title = String(button.filename!.split(separator: "/").last!) + " - Malugri";
            btn.label = "Pause";
-           pb.range.set_range(min:0.0, max: Double(pC.fileInformation.totalSamples));
            DispatchQueue.global().async {
-               while (self.pC.backend.state) {
-                   pb.range.set_value(Double(pC.backend.currentSampleNumber))
+               while (pC.backend.state) {
+                   scaleValue(scale: pb, value: Int(pC.backend.currentSampleNumber * 100 / pC.fileInformation.totalSamples))
                    Thread.sleep(forTimeInterval: 0.05)
                }
            }
